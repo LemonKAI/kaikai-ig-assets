@@ -1,0 +1,116 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Kubernetes Pod boundary explainer</title>
+  <desc id="desc">A dark notebook-style diagram showing Kubernetes scheduling a Pod boundary that contains multiple containers sharing network, storage, and lifecycle context.</desc>
+  <defs>
+    <radialGradient id="bgGlow" cx="20%" cy="5%" r="70%">
+      <stop offset="0%" stop-color="#253b57" stop-opacity="0.75" />
+      <stop offset="52%" stop-color="#0b121b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#070a0f" />
+    </radialGradient>
+    <linearGradient id="podFill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#152538" />
+      <stop offset="100%" stop-color="#101820" />
+    </linearGradient>
+    <linearGradient id="containerFill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#22364c" />
+      <stop offset="100%" stop-color="#162433" />
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000000" flood-opacity="0.34" />
+    </filter>
+    <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse">
+      <path d="M 54 0 L 0 0 0 54" fill="none" stroke="#f4f0e8" stroke-opacity="0.045" stroke-width="1" />
+    </pattern>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#f2cc60" />
+    </marker>
+    <style>
+      .mono { font-family: 'IBM Plex Mono', 'SFMono-Regular', ui-monospace, monospace; }
+      .sans { font-family: Inter, 'Noto Sans TC', system-ui, sans-serif; }
+      .label { fill: #f4f0e8; font-weight: 800; letter-spacing: -0.03em; }
+      .muted { fill: #b9c2cb; }
+      .note { fill: #d8d0c3; }
+      .lemon { fill: #f2cc60; }
+      .blue { fill: #89b7ff; }
+      .line { stroke: #f4f0e8; stroke-opacity: 0.16; }
+      .dash { stroke-dasharray: 12 14; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgGlow)" />
+  <rect width="1600" height="900" fill="url(#grid)" />
+
+  <g opacity="0.22">
+    <circle cx="1370" cy="120" r="190" fill="#89b7ff" />
+    <circle cx="245" cy="735" r="220" fill="#f2cc60" opacity="0.55" />
+  </g>
+
+  <g transform="translate(110 82)">
+    <text class="mono lemon" x="0" y="0" font-size="28" font-weight="700">KAI K8s Notebook · 01</text>
+    <text class="sans label" x="0" y="62" font-size="56">Pod is the orchestration boundary</text>
+    <text class="sans muted" x="2" y="106" font-size="25">Container runs the process. Pod gives Kubernetes one schedulable, observable unit.</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="184" y="210" width="1232" height="548" rx="46" fill="#0f1823" fill-opacity="0.88" stroke="#f4f0e8" stroke-opacity="0.16" stroke-width="2" />
+    <text class="mono muted" x="232" y="265" font-size="24" font-weight="700">NODE</text>
+    <text class="sans muted" x="310" y="265" font-size="22">the machine where this workload lands</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="405" y="310" width="820" height="330" rx="42" fill="url(#podFill)" stroke="#f2cc60" stroke-opacity="0.7" stroke-width="3" />
+    <rect x="426" y="333" width="778" height="286" rx="30" fill="none" stroke="#f2cc60" stroke-opacity="0.28" stroke-width="2" stroke-dasharray="10 12" />
+    <text class="mono lemon" x="452" y="372" font-size="24" font-weight="800">POD BOUNDARY</text>
+    <text class="sans note" x="452" y="407" font-size="22">same placement · same network · same lifecycle</text>
+
+    <g transform="translate(455 455)">
+      <rect width="260" height="112" rx="26" fill="url(#containerFill)" stroke="#89b7ff" stroke-opacity="0.75" stroke-width="2" />
+      <circle cx="40" cy="55" r="18" fill="#89b7ff" fill-opacity="0.24" stroke="#89b7ff" />
+      <text class="sans label" x="75" y="52" font-size="26">app</text>
+      <text class="mono muted" x="75" y="82" font-size="16">container</text>
+    </g>
+
+    <g transform="translate(765 455)">
+      <rect width="260" height="112" rx="26" fill="url(#containerFill)" stroke="#9fddbd" stroke-opacity="0.72" stroke-width="2" />
+      <circle cx="40" cy="55" r="18" fill="#9fddbd" fill-opacity="0.22" stroke="#9fddbd" />
+      <text class="sans label" x="75" y="52" font-size="26">sidecar</text>
+      <text class="mono muted" x="75" y="82" font-size="16">container</text>
+    </g>
+
+    <g transform="translate(1050 449)">
+      <rect width="118" height="124" rx="28" fill="#111923" stroke="#f2cc60" stroke-opacity="0.36" />
+      <path d="M38 42 h42 M38 64 h42 M38 86 h28" stroke="#f2cc60" stroke-width="7" stroke-linecap="round" opacity="0.9" />
+      <text class="mono muted" x="18" y="151" font-size="15">shared</text>
+    </g>
+  </g>
+
+  <g>
+    <path d="M262 408 C315 380 340 362 398 365" fill="none" stroke="#f2cc60" stroke-width="4" marker-end="url(#arrow)" />
+    <text class="mono lemon" x="154" y="376" font-size="22" font-weight="800">scheduler</text>
+    <text class="sans muted" x="154" y="408" font-size="20">places the Pod</text>
+    <text class="sans muted" x="154" y="437" font-size="20">not each container</text>
+  </g>
+
+  <g transform="translate(250 660)">
+    <rect width="250" height="58" rx="29" fill="#f2cc60" fill-opacity="0.13" stroke="#f2cc60" stroke-opacity="0.36" />
+    <text class="mono lemon" x="30" y="37" font-size="20" font-weight="700">shared IP</text>
+  </g>
+  <g transform="translate(525 660)">
+    <rect width="270" height="58" rx="29" fill="#89b7ff" fill-opacity="0.12" stroke="#89b7ff" stroke-opacity="0.35" />
+    <text class="mono blue" x="30" y="37" font-size="20" font-weight="700">shared volume</text>
+  </g>
+  <g transform="translate(820 660)">
+    <rect width="322" height="58" rx="29" fill="#9fddbd" fill-opacity="0.11" stroke="#9fddbd" stroke-opacity="0.32" />
+    <text class="mono" x="30" y="37" font-size="20" font-weight="700" fill="#9fddbd">shared lifecycle</text>
+  </g>
+
+  <g transform="translate(1270 356)">
+    <rect width="250" height="184" rx="32" fill="#121b26" stroke="#f4f0e8" stroke-opacity="0.14" />
+    <text class="mono lemon" x="28" y="50" font-size="21" font-weight="800">DEBUG HINT</text>
+    <text class="sans note" x="28" y="88" font-size="20">Start from Pod</text>
+    <text class="sans note" x="28" y="118" font-size="20">placement, network,</text>
+    <text class="sans note" x="28" y="148" font-size="20">volume, lifecycle.</text>
+  </g>
+
+  <path d="M1230 515 C1260 516 1260 516 1268 516" fill="none" stroke="#f2cc60" stroke-width="3" stroke-opacity="0.78" marker-end="url(#arrow)" />
+</svg>
